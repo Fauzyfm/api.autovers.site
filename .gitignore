@@ -1,0 +1,130 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+.env.test
+
+# Secrets & credentials
+*.pem
+*.key
+*.crt
+*.p12
+.aws/
+.ssh/
+secrets.json
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.sublime-project
+.sublime-workspace
+*.iml
+*.iws
+*.ipr
+.netrc
+
+# Go
+bin/
+dist/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+.go/
+vendor/
+go.sum.lock
+debug
+debug.test
+
+# Build artifacts
+*.o
+*.a
+*.so
+.libs/
+*.la
+*.lo
+*.lai
+*.lai
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+*.backup
+*.swp
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+*.sql
+local.db
+
+# Generated files
+docs/swagger.json
+docs/swagger.yaml
+docs/docs.go
+
+# Dependencies
+node_modules/
+vendor/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# macOS
+.AppleDouble
+.LSOverride
+*.swp
+*~
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json
+
+# Linux
+.~lock*
+
+# Private data
+private/
+secrets/
+config/secrets.json
+
+# Testing coverage
+*.out
+coverage.html
+*.coverprofile
+
+# IDE specific
+.vscode/
+.idea/
+*.code-workspace
+
+# Railway & deployment
+railway.json
+.railway/
+
+# Postman
+postman_environment.json
+postman_collection.json
+
+# ngrok
+.ngrok2/
