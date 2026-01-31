@@ -57,7 +57,12 @@ func LoginHandler(c *fiber.Ctx) error {
 	}
 
 	// Set cookie dengan token JWT
-	loc, _ := time.LoadLocation("Asia/Jakarta")
+	loc, err := time.LoadLocation("Asia/Jakarta")
+	if err != nil {
+		// Fallback ke UTC jika timezone tidak tersedia
+		loc = time.UTC
+	}
+	
 	token, err := utils.GenerateToken(user.Email, user.UserName, user.Role)
 	if err != nil {
 		return utils.JSONError(c, 500, "Failed to generate token")

@@ -4,7 +4,7 @@ FROM golang:1.25.5-alpine AS builder
 WORKDIR /app
 
 # Install dependencies
-RUN apk add --no-cache git
+RUN apk add --no-cache git tzdata
 
 # Copy go mod files
 COPY go.mod go.sum ./

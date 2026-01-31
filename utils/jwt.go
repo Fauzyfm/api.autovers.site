@@ -1,12 +1,21 @@
 package utils
 
 import (
+	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
 )
 
-var JwtSecret = []byte("SECRET_JWT_AUTOVERS") // ganti dengan env
+var JwtSecret = []byte(getJwtSecret())
+
+func getJwtSecret() string {
+	secret := os.Getenv("SECRET_JWT_AUTOVERS")
+	if secret == "" {
+		secret = "SECRET_JWT_AUTOVERS" // fallback
+	}
+	return secret
+}
 
 type JwtClaims struct {
 	Email    string `json:"email"`
@@ -23,14 +32,18 @@ type VerificationClaims struct {
 
 // Generate JWT token
 func GenerateToken(email, username, role string) (string, error) {
-
-	loc, _ := time.LoadLocation("Asia/Jakarta")
+	loc, err := time.LoadLocation("Asia/Jakarta")
+	if err != nil {
+		// Fallback ke UTC jika timezone tidak tersedia
+		loc = time.UTC
+	}
+	
 	claims := &JwtClaims{
 		Email:    email,
 		UserName: username,
 		Role:     role,
 		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().In(loc).Add(time.Hour * 1)), // 1 hari
+			ExpiresAt: jwt.NewNumericDate(time.Now().In(loc).Add(time.Hour * 1)), // 1 jam
 			IssuedAt:  jwt.NewNumericDate(time.Now().In(loc)),
 		},
 	}
@@ -56,7 +69,11 @@ func ParseToken(tokenString string) (*JwtClaims, error) {
 }
 
 func GenerateVerificationToken(email string) (string, error) {
-	loc, _ := time.LoadLocation("Asia/Jakarta")
+	loc, err := time.LoadLocation("Asia/Jakarta")
+	if err != nil {
+		// Fallback ke UTC jika timezone tidak tersedia
+		loc = time.UTC
+	}
 
 	claims := &VerificationClaims{
 		Email:   email,
@@ -98,7 +115,11 @@ func ParseVerificationToken(tokenString string) (*VerificationClaims, error) {
 
 // Generate Reset Password Token
 func GenerateResetPasswordToken(email string) (string, error) {
-	loc, _ := time.LoadLocation("Asia/Jakarta")
+	loc, err := time.LoadLocation("Asia/Jakarta")
+	if err != nil {
+		// Fallback ke UTC jika timezone tidak tersedia
+		loc = time.UTC
+	}
 
 	claims := &VerificationClaims{
 		Email:   email,
