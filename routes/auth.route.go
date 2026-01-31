@@ -2,7 +2,6 @@ package routes
 
 import (
 	"belajar-go-fiber/handlers"
-	"belajar-go-fiber/middlewares"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -16,12 +15,9 @@ func AuthRoutes(app *fiber.App) {
 	app.Post("/auth/reset-password", handlers.ResetPasswordHandler)
 }
 
-// ProtectedRoutes - Routes yang memerlukan authentication
+// ProtectedRoutes - Function ini tidak digunakan lagi karena protected routes
+// sekarang didaftarkan langsung di main.go untuk menghindari konflik middleware
 func ProtectedRoutes(app fiber.Router) {
-	// Hanya admin dan user yang bisa akses
-	app.Get("/auth/me", middlewares.RequireRole("admin", "user"), handlers.MeHandler)
-	app.Post("/auth/logout", middlewares.RequireRole("admin", "user"), handlers.LogoutHandler)
-	// Tambahkan route protected lainnya di sini
-	// Contoh: app.Get("/users/profile", middlewares.RequireRole("admin", "user"), handlers.GetProfile)
-	// Contoh admin-only: app.Get("/admin/dashboard", middlewares.RequireRole("admin"), handlers.AdminDashboard)
+	// DEPRECATED: Protected routes sekarang di main.go
+	// Ini dibiarkan untuk compatibility jika ada referensi lain
 }

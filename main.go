@@ -2,6 +2,7 @@ package main
 
 import (
 	"belajar-go-fiber/config"
+	"belajar-go-fiber/handlers"
 	"belajar-go-fiber/middlewares"
 	"belajar-go-fiber/routes"
 
@@ -22,20 +23,23 @@ func main() {
 	// ⭐ SWAGGER DOCUMENTATION UI
 	app.Get("/swagger/*", fiberSwagger.WrapHandler)
 
-	// ⭐ PUBLIC ROUTES
+	// ⭐ HEALTH CHECK / ROOT ENDPOINT
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{
 			"message": "API running",
+			"version": "1.0.0",
 		})
 	})
 
+	// ⭐ INITIALIZE DATABASE
 	config.InitDatabase()
+
+	// ⭐ PUBLIC ROUTES (tidak memerlukan authentication)
 	routes.AuthRoutes(app)
 
-	// ⭐ PROTECTED ROUTES (menggunakan ProtectRoute middleware)
-	protected := app.Group("")
-	protected.Use(middlewares.ProtectRoute())
-	routes.ProtectedRoutes(protected)
+	// ⭐ PROTECTED ROUTES (hanya /auth/me dan /auth/logout yang perlu authentication)
+	app.Get("/auth/me", middlewares.ProtectRoute(), middlewares.RequireRole("admin", "user"), handlers.MeHandler)
+	app.Post("/auth/logout", middlewares.ProtectRoute(), middlewares.RequireRole("admin", "user"), handlers.LogoutHandler)
 
 	app.Listen(":8080")
 }
