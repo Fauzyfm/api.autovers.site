@@ -41,5 +41,5 @@ func main() {
 	app.Get("/auth/me", middlewares.ProtectRoute(), middlewares.RequireRole("admin", "user"), handlers.MeHandler)
 	app.Post("/auth/logout", middlewares.ProtectRoute(), middlewares.RequireRole("admin", "user"), handlers.LogoutHandler)
 
-	app.Listen(":8080")
+	app.Listen("0.0.0.0:8080")
 }
